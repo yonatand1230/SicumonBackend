@@ -23,7 +23,7 @@ dynamodb = session.resource('dynamodb', region_name='il-central-1')
 table = dynamodb.Table('Files')
 
 class Db:
-    def new_file(file: io.BytesIO, file_meta: Sicum):
+    def new_file(file: io.BytesIO, file_meta: Sicum) -> Sicum:
         # Upload file to S3
         file_key = f'files/{file_meta.fileName}'
         s3.upload_fileobj(file, 'sicumon', file_key)
@@ -43,5 +43,36 @@ class Db:
         file_meta.fileKey = file_key
         return file_meta
 
-    def generate_file_url(file_key: str):
+    def generate_file_url(file_key: str) -> str:
         return s3.generate_presigned_url('get_object', Params={'Bucket':os.getenv('S3_ACCESS_POINT'),'Key':file_key})
+    
+    def get_file_meta(file_key: str) -> Sicum:
+        response = table.get_item(Key={'fileKey':'files/yom_hamea.pdf'})
+        return Sicum.from_dict(response.get('Item'))
+    
+    def get_files_by_subject(subject: str, Limit: int = 10, ExclusiveStartKey:str=None) -> dict:
+        response = None
+        if ExclusiveStartKey:
+            print('DETECTED\nDETECTED\nDETECTED')   
+            response = table.scan(
+                FilterExpression=Attr('subject').eq(subject),
+                Limit=Limit,
+                ExclusiveStartKey={'fileKey':ExclusiveStartKey}
+            )
+        else:
+            print('NOT DETECTED\nNOT DETECTED')
+            response = table.scan(
+                FilterExpression=Attr('subject').eq(subject),
+                Limit=Limit
+            )
+        
+        items_json = response.get('Items')
+        items = []
+        for i in items_json: items.append(Sicum.from_dict(i))
+        
+        my_response = {
+            "Items": items
+        }
+        if response.get('LastEvaluatedKey'): my_response['LastEvaluatedKey']=response.get('LastEvaluatedKey').get('fileKey')
+        
+        return my_response

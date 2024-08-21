@@ -1,19 +1,15 @@
-from sicumon.sicum import Sicum
-from sicumon.db import Db
-import io
+import logging, json, os.path
+from fastapi import FastAPI
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+from api import app as api_app
 
-print(Db.generate_file_url('files/yom_hamea.pdf'))
+logging.basicConfig(level=logging.DEBUG)
 
+app = FastAPI()
+app.mount("/api", api_app, name='api')
+app.mount("/", StaticFiles(directory='static', html=True), name='static')
 
-"""bin=open('yom_hamea.pdf','rb').read()
-f = io.BytesIO(bin)
-
-meta = Sicum.from_dict(
-    {
-        'fileName': 'yom_hamea.pdf',
-        'subject': 'Other',
-        'uploaderName': 'Yonatan2'
-    }
-)
-
-Db.new_file(file=f, file_meta=meta)"""
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
