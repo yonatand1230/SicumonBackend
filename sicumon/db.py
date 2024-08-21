@@ -50,17 +50,17 @@ class Db:
         response = table.get_item(Key={'fileKey':'files/yom_hamea.pdf'})
         return Sicum.from_dict(response.get('Item'))
     
-    def get_files_by_subject(subject: str, Limit: int = 10, ExclusiveStartKey:str=None) -> dict:
+    def get_files_by_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:str=None) -> dict:
         response = None
         if ExclusiveStartKey:
             response = table.scan(
-                FilterExpression=Attr('subject').eq(subject),
+                FilterExpression=Attr('subject').eq(subject)&Attr('grade').eq(grade),
                 Limit=Limit,
                 ExclusiveStartKey={'fileKey':ExclusiveStartKey}
             )
         else:
             response = table.scan(
-                FilterExpression=Attr('subject').eq(subject),
+                FilterExpression=Attr('subject').eq(subject)&Attr('grade').eq(grade),
                 Limit=Limit
             )
         

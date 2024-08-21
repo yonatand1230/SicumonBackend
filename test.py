@@ -30,9 +30,7 @@ dynamodb = session.resource('dynamodb', region_name='il-central-1')
 t = dynamodb.Table('Files')
 
 response = t.scan(
-    FilterExpression=Attr('subject').eq('Math'),
-    Limit=2,
-    ExclusiveStartKey=None
+    FilterExpression=Attr('grade').eq(11)&Attr('subject').eq('Math')
 )
 print(response)
 
