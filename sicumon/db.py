@@ -53,14 +53,12 @@ class Db:
     def get_files_by_subject(subject: str, Limit: int = 10, ExclusiveStartKey:str=None) -> dict:
         response = None
         if ExclusiveStartKey:
-            print('DETECTED\nDETECTED\nDETECTED')   
             response = table.scan(
                 FilterExpression=Attr('subject').eq(subject),
                 Limit=Limit,
                 ExclusiveStartKey={'fileKey':ExclusiveStartKey}
             )
         else:
-            print('NOT DETECTED\nNOT DETECTED')
             response = table.scan(
                 FilterExpression=Attr('subject').eq(subject),
                 Limit=Limit
