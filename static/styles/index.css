@@ -1,0 +1,153 @@
+body {
+    /*transform: scale(0.85);*/
+    margin: 0;
+    padding: 0;
+    font-family: "Rubik";
+    font-weight: bold;
+    background-color: #f0f0f0;
+    direction: rtl;
+}
+
+.top-bar {
+    background-color: #4b1c94;
+    height: 6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+}
+
+.options-container {
+    position: absolute;
+    right: 25px;
+    top: 1rem;
+}
+
+.options-container img {
+    cursor: pointer;
+    position: relative;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 3rem;
+    transition: transform 0.1s ease;
+}
+
+.options-container img:hover {
+    transform: scale(1.1);
+}
+
+.modal h2 {
+    font-size: 3rem;
+    color: #0d53a8;
+}
+
+.modal {
+    opacity: 0%;
+    z-index: -1;
+    transition: all 0.2s ease-in-out;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.open {
+    opacity: 1;
+    z-index: 1;
+}
+
+.modal-inner {
+    background-color: #FFFFFF;
+    border-radius: 5px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    padding: 15px 25px;
+    text-align: center;
+    width: 15rem;
+}
+
+.modal-inner select {
+    gap: 50px;
+    padding: 12px;
+}
+
+.modal-inner button {
+    background-color: #1ef843;
+    border-radius: 15px;
+    border: 2px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+    color: black;
+    cursor: pointer;
+    padding: 10px 25px;
+
+    font-family: "Rubik";
+    font-weight: bold;
+    font-size: 1.8rem;
+}
+
+/* Titles */
+.headers {
+    margin-top: 20px;
+    text-align: center;
+}
+.headers h1 {
+    justify-content: center;
+    font-size: 4rem;
+    color: #0557BC;
+    margin: 1rem;
+}
+.headers h2 {
+    font-size: 2.5rem;
+    color: #3570b3;
+    margin: -1.5rem;
+}
+
+.main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 15em;
+    flex-direction: column;
+    text-align: center;
+}
+
+.buttons-wrapper {
+    margin: 2rem;
+    position: absolute;
+    top: 13.5rem;
+    display: grid;
+    gap: 10px;
+}
+
+.subject-buttons {
+    display: grid;
+    grid-template-columns: auto 0.5rem auto;
+    justify-content: center;
+
+}
+
+.button {
+    padding: 1.5rem;
+    background-color: #e0e0e0;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 1.7rem;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.button:hover {
+    transform: scale(1.05);
+    filter: brightness(0.95);
+}
+
+.button:active {
+    transform: scale(1.05);
+    filter: brightness(0.95);
+}

@@ -36,11 +36,13 @@ class Db:
                 'fileName': file_meta.fileName,
                 'subject': file_meta.subject,
                 'uploadDate': upload_date,
-                'uploaderName': file_meta.uploaderName
+                'uploaderName': file_meta.uploaderName,
+                'grade': file_meta.grade
             }
         )
         # Return updated file_meta 
         file_meta.fileKey = file_key
+        file_meta.uploadDate = upload_date
         return file_meta
 
     def generate_file_url(file_key: str) -> str:
