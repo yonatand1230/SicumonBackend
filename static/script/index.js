@@ -17,7 +17,7 @@ function getCookie(name) {
 function subjectClicked(subject) {
     //console.log(subject);
     const grade = getCookie('grade');
-    location.href = "/subject.html?subject="+subject+"&grade="+grade;
+    location.href = "/subject?subject="+subject+"&grade="+grade;
 }
 
 
