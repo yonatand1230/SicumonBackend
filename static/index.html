@@ -3,17 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="initial-scale=1, viewport-fit=cover, user-scalable=no">
+
     <link rel="manifest" href="/files/app.webmanifest">
     <link href='https://fonts.googleapis.com/css?family=Rubik' rel='stylesheet'>
     <link rel="stylesheet" href="/styles/index.css">
-    <title>סיכומון - דף הבית</title>
+    <title>סיכומון</title>
     <script src="script/options.js"></script>
     <script src="script/index.js"></script>
     <script>loadSubjects()</script>
 </head>
 <body>
     <div class="top-bar">
-        סיכומון
+        <div class="top-text" onclick="location.href='/'">סיכומון</div>
         <div class="options-container" onclick="showOptions()">
             <img src="/files/options.svg" alt="Options" id="options-icon"></img>
         </div>
@@ -27,11 +30,14 @@
     </div>
     <div class="modal" id="modal">
         <div class="modal-inner">
-            <h2>תפריט</h2>
+            <div class="options-title-container">
+                <h2>תפריט</h2>
+            </div>
             <div class="grade-selector-container">
                 שכבת לימוד:
-                <select name="grade" id="grade">
-                    <option value="12" selected="true">י"ב</option>
+                <select name="grade-selector" id="grade-selector" onchange="updateGrade()">
+                    <option value="" selected="true">בחר</option>
+                    <option value="12">י"ב</option>
                     <option value="11">י"א</option>
                     <option value="10">י'</option>
                     <option value="9">ט'</option>
@@ -39,7 +45,14 @@
                     <option value="7">ז'</option>
                 </select>
             </div>
-            <button onclick="closeOptions()">אישור</button>
+            <div class="name-input-container">
+                שם מעלה:
+                <input type="text" placeholder="הקלד שם..."></input>
+                <p>שם זה יוצג באופן ציבורי על כל קובץ שהועלה על ידך.</p>
+            </div>
+            <div class="confirm-btn-container">
+                <button onclick="closeOptions()">אישור</button>
+            </div>
         </div>
     </div>
 </body>

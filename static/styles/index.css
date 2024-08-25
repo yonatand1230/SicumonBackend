@@ -1,14 +1,19 @@
 body {
-    /*transform: scale(0.85);*/
+    width: 100%;
+    max-width: 100%;
     margin: 0;
     padding: 0;
     font-family: "Rubik";
     font-weight: bold;
     background-color: #f0f0f0;
     direction: rtl;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .top-bar {
+    position: fixed;
+    margin-top: 0px;
+    width: 100%;
     background-color: #4b1c94;
     height: 6rem;
     display: flex;
@@ -17,6 +22,16 @@ body {
     color: white;
     font-size: 3rem;
     font-weight: bold;
+    z-index: 1;
+}
+
+.top-text {
+    cursor: pointer;
+    transition: transform 0.1s ease;
+}
+
+.top-text:hover {
+    transform: scale(1.1);
 }
 
 .options-container {
@@ -38,12 +53,30 @@ body {
     transform: scale(1.1);
 }
 
+@media screen and (display-mode: standalone) {
+    .top-bar {
+        position: fixed;
+        height: 8.5rem !important;
+    }
+    .top-text {
+        position: relative;
+        margin-top: 2.7rem;
+    }
+    .options-container {
+        margin-top: 2.7rem;
+    }
+}
+
 .modal h2 {
+    position: relative;
+    margin-top: 0rem;
+    margin-bottom: 0rem;
     font-size: 3rem;
     color: #0d53a8;
 }
 
 .modal {
+    max-width: 100%;
     opacity: 0%;
     z-index: -1;
     transition: all 0.2s ease-in-out;
@@ -65,10 +98,10 @@ body {
 
 .modal-inner {
     background-color: #FFFFFF;
-    border-radius: 5px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    border-radius: 20px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
     padding: 15px 25px;
-    text-align: center;
+    text-align: right;
     width: 15rem;
 }
 
@@ -78,34 +111,75 @@ body {
 }
 
 .modal-inner button {
-    background-color: #1ef843;
+    background-color: #cdb0ff;
     border-radius: 15px;
     border: 2px;
     box-shadow: 0 1px 4px rgba(0,0,0,0.3);
     color: black;
     cursor: pointer;
-    padding: 10px 25px;
+    padding: 3px 10px;
 
     font-family: "Rubik";
     font-weight: bold;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
+    transition: all 0.1s ease-in-out;
+}
+
+.modal-inner button:hover {
+    transform: scale(1.1);
+    filter: brightness(1.1);
+}
+
+.confirm-btn-container {
+    text-align: center;
+}
+
+.options-title-container {
+    text-align: center;
+}
+
+.modal-inner input {
+    margin-top: 7px;
+    margin-bottom: 0px;
+}
+
+.modal-inner p {
+    position: relative;
+    color: #2b2b2b;
+    font-weight: light;
+    font-size: 0.8rem;
+    margin-top: 2px;
+    text-align: right;
 }
 
 /* Titles */
 .headers {
-    margin-top: 20px;
+    position: absolute;
+    margin-top: 90px;
     text-align: center;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 .headers h1 {
     justify-content: center;
     font-size: 4rem;
     color: #0557BC;
     margin: 1rem;
+    max-width: 100%;
 }
 .headers h2 {
+    justify-content: center;
     font-size: 2.5rem;
     color: #3570b3;
-    margin: -1.5rem;
+    margin-top: -1.6rem;
+    max-width: 100%;
+}
+
+@media screen and (display-mode: standalone) {
+    .headers {
+        margin-top: 130px;
+    }
 }
 
 .main {
@@ -125,6 +199,12 @@ body {
     gap: 10px;
 }
 
+@media screen and (display-mode: standalone) {
+    .buttons-wrapper {
+        margin-top: 4rem;
+    }
+}
+
 .subject-buttons {
     display: grid;
     grid-template-columns: auto 0.5rem auto;
@@ -139,12 +219,12 @@ body {
     text-align: center;
     font-size: 1.7rem;
     cursor: pointer;
-    transition: transform 0.1s ease;
+    transition: all 0.1s ease-in-out;
 }
 
 .button:hover {
     transform: scale(1.05);
-    filter: brightness(0.95);
+    filter: brightness(1.05);
 }
 
 .button:active {
