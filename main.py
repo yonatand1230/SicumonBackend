@@ -2,12 +2,14 @@ import logging, json, os.path
 from fastapi import FastAPI
 from fastapi.responses import FileResponse, Response
 from fastapi.staticfiles import StaticFiles
+from mangum import Mangum
 from api import app as api_app
 from pathlib import Path
 
 #logging.basicConfig(level=logging.DEBUG)
 
 app = FastAPI()
+handler = Mangum(app)
 app.mount("/api", api_app, name='api')
 
 """
