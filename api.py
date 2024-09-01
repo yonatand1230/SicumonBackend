@@ -30,7 +30,7 @@ def handle_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:
         'Items': items_json
     }
     if response.get('LastEvaluatedKey'): my_response['LastEvaluatedKey']=response.get('LastEvaluatedKey')
-    return JSONResponse(my_response)
+    return JSONResponse(my_response, headers={'Access-Control-Allow-Origin':'*'})
 
 """@app.post("/upload_file")
 def upload_file(file_item: FileItem):
