@@ -4,6 +4,11 @@ from dotenv import load_dotenv
 from boto3.dynamodb.conditions import Attr
 from datetime import datetime
 
+def file_size(file) -> int:
+    # Get (temp) file size in bytes
+    size = file.seek(0,2)
+    file.seek(0)
+    return size
 
 class Db:
     def new_file(file: io.BytesIO, file_meta: Sicum) -> Sicum:
@@ -21,6 +26,10 @@ class Db:
         # Connect to DynamoDB
         dynamodb = session.resource('dynamodb', region_name='il-central-1')
         table = dynamodb.Table('Files')
+        
+        # Get file size
+        fileSize = file_size(file)
+
         # Upload file to S3
         file_key = f'files/{file_meta.fileName}'
         s3.upload_fileobj(file, 'sicumon', file_key)
@@ -34,7 +43,8 @@ class Db:
                 'subject': file_meta.subject,
                 'uploadDate': upload_date,
                 'uploaderName': file_meta.uploaderName,
-                'grade': file_meta.grade
+                'grade': file_meta.grade,
+                'fileSize': fileSize
             }
         )
         # Return updated file_meta 
