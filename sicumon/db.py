@@ -28,7 +28,7 @@ class Db:
         table = dynamodb.Table('Files')
         
         # Get file size
-        fileSize = file_size(file)
+        file_meta.fileSize = file_size(file)
 
         # Upload file to S3
         file_key = f'files/{file_meta.fileName}'
@@ -44,7 +44,7 @@ class Db:
                 'uploadDate': upload_date,
                 'uploaderName': file_meta.uploaderName,
                 'grade': file_meta.grade,
-                'fileSize': fileSize
+                'fileSize': file_meta.fileSize
             }
         )
         # Return updated file_meta 
