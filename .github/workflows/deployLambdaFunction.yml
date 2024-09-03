@@ -16,7 +16,7 @@ jobs:
         uses: montudor/action-zip@v1
       - name: Install Requirements
         run: |
-          pip install --platform manylinux2014_x86_64 -t package --only-binary=:all: -r requirements.txt
+          pip install -t package -r requirements.txt
       - name: Create zip for lambda function
         run: |
           (cd package; zip ../aws_lambda_artifact.zip -r .; cd ..)
