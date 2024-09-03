@@ -72,7 +72,7 @@ class Db:
         if not item: return None
         return Sicum.from_dict(item)
     
-    def get_files_by_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:str=None) -> dict:
+    def get_files_by_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:str=None, get_json=False) -> dict:
         dynamodb = new_session().resource('dynamodb') # Connect to DynamoDB
         table = dynamodb.Table('Files')
         response = None
@@ -93,9 +93,12 @@ class Db:
         except Exception as e:
             print(e)
         
+        if get_json: return response
+        
         items_json = response.get('Items')
         items = []
         for i in items_json: items.append(Sicum.from_dict(i))
+        print(items)
         
         my_response = {
             "Items": items

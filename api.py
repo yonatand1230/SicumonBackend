@@ -28,13 +28,15 @@ def handle_get_file_meta(fileKey: str):
 
 @app.get("/get_file_list")
 def handle_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:str=None):
-    if Limit>20: raise Exception('Limit too high!')
-    items_json = []
-    print('getting files!')
-    response = Db.get_files_by_subject(subject, grade, Limit=Limit, ExclusiveStartKey=ExclusiveStartKey)
+    if Limit>20: 
+        return Response(400, 'Limit too high!')
+    
+    print(1)
+    response = Db.get_files_by_subject(subject, grade, Limit=Limit, ExclusiveStartKey=ExclusiveStartKey, get_json=True)
+    print(2)
+    return JSONResponse(response)
 
-    print('got files!')
-
+    """items_json = []
     items = response.get('Items')
     for f in items: items_json.append(Utils.replace_decimals(f.__dict__))
     print(items_json)
@@ -42,8 +44,8 @@ def handle_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:
         'Items': items_json
     }
     if response.get('LastEvaluatedKey'): my_response['LastEvaluatedKey']=response.get('LastEvaluatedKey')
-    print(my_response)
-    return JSONResponse(my_response, headers={'Access-Control-Allow-Origin':'*'})
+    return JSONResponse(my_response, headers={'Access-Control-Allow-Origin':'*'})"""
+
 
 """@app.post("/upload_file")
 def upload_file(file_item: FileItem):
