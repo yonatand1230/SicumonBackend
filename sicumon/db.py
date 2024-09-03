@@ -149,3 +149,4 @@ class Db:
             response_fixed['LastEvaluatedKey'] = lastKey
         
         print(response_fixed)
+        return response_fixed
