@@ -33,7 +33,8 @@ def handle_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:
         return Response(400, 'Limit too high!')
     
     print(1)
-    response = Db.get_files_by_subject(subject, grade, Limit=Limit, ExclusiveStartKey=ExclusiveStartKey, get_json=True)
+    #response = Db.get_files_by_subject(subject, grade, Limit=Limit, ExclusiveStartKey=ExclusiveStartKey, get_json=True)
+    response = Db.get_files_by_subject(subject, grade, Limit=Limit, ExclusiveStartKey=ExclusiveStartKey)
     return JSONResponse(response)
 
     """items_json = []
