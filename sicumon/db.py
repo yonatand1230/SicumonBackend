@@ -16,7 +16,7 @@ def file_size(file) -> int:
     return size
 
 def new_session():
-    session = boto3.Session(
+    return boto3.Session(
         aws_access_key_id=AWS_KEYID,
         aws_secret_access_key=AWS_SECRET,
         region_name=AWS_REGION
