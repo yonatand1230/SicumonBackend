@@ -15,13 +15,13 @@ jobs:
       - name: Install zip tool
         uses: montudor/action-zip@v1
       - name: Create zip for lambda function
-        run: cd src && zip -r code.zip .
+        run: zip -r code.zip .
       - name: AWS CLI v2
         uses: imehedi/actions-awscli-v2@latest
         with:
           args: "Lambda update-function-code \
             --function-name arn:aws:lambda:eu-west-3:442533761763:function:sicumonbackend \
-            --zip-file fileb://src/code.zip"
+            --zip-file fileb://code.zip"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
