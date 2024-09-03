@@ -14,14 +14,19 @@ jobs:
       - uses: actions/checkout@v2
       - name: Install zip tool
         uses: montudor/action-zip@v1
+      - name: Install Requirements
+        run: |
+          pip3 install --platform manylinux2014_x86_64 -t package --only-binary=:all: -r requirements.txt
       - name: Create zip for lambda function
-        run: zip -r code.zip .
+        run: |
+          (cd package; zip ../aws_lambda_artifact.zip -r .; cd ..)
+          zip aws_lambda_artifact.zip -u main.py api.py sicumon/*
       - name: AWS CLI v2
         uses: imehedi/actions-awscli-v2@latest
         with:
           args: "lambda update-function-code \
             --function-name arn:aws:lambda:eu-west-3:442533761763:function:sicumonbackend \
-            --zip-file fileb://code.zip"
+            --zip-file fileb://aws_lambda_artifact.zip"
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
