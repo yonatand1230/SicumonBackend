@@ -28,7 +28,11 @@ def handle_get_file_meta(fileKey: str):
 def handle_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:str=None):
     if Limit>20: raise Exception('Limit too high!')
     items_json = []
+    print('getting files!')
     response = Db.get_files_by_subject(subject, grade, Limit=Limit, ExclusiveStartKey=ExclusiveStartKey)
+
+    print('got files!')
+
     items = response.get('Items')
     for f in items: items_json.append(Utils.replace_decimals(f.__dict__))
     my_response = {

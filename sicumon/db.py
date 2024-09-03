@@ -99,19 +99,24 @@ class Db:
         #load_dotenv() # Init .env
 
         # Connect to AWS
+        print('connecting to aws')
         session = boto3.Session(
             aws_access_key_id=os.environ['AWS_KEYID'],
             aws_secret_access_key=os.environ['AWS_SECRET'],
             region_name='il-central-1'
         )
         # Connect to S3
-        resource = session.resource('s3', region_name='il-central-1')
-        s3 = resource.meta.client
+        #print('connecting to s3')
+        #resource = session.resource('s3', region_name='il-central-1')
+        #s3 = resource.meta.client
 
         # Connect to DynamoDB
+        print('connecting to dynamodb')
         dynamodb = session.resource('dynamodb', region_name='il-central-1')
         table = dynamodb.Table('Files')
         response = None
+
+        print('getting response from aws')
         if ExclusiveStartKey:
             response = table.scan(
                 FilterExpression=Attr('subject').eq(subject)&Attr('grade').eq(grade),
@@ -124,7 +129,9 @@ class Db:
                 Limit=Limit
             )
         
+        print('preparing response for client')
         items_json = response.get('Items')
+        print(items_json)
         items = []
         for i in items_json: items.append(Sicum.from_dict(i))
         
