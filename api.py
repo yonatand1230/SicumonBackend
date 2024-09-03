@@ -45,8 +45,8 @@ def handle_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:
     my_response = {
         'Items': my_items
     }
-    if response.get('ExclusiveStartKey'): 
-        my_response['ExclusiveStartKey'] = response.get('ExclusiveStartKey').get('fileKey')
+    if response.get('LastEvaluatedKey'):
+        my_response['LastEvaluatedKey'] = response.get('LastEvaluatedKey').get('fileKey')
 
     return JSONResponse(my_response)
 
