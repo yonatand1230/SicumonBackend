@@ -17,6 +17,7 @@ app = FastAPI()
 
 @app.get("/get_file_meta")
 def handle_get_file_meta(fileKey: str):
+    print('not using b64!')
     decodedKey = fileKey
     item = Db.get_file_meta(decodedKey)
     if item: return JSONResponse(Utils.replace_decimals(item.__dict__))
