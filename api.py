@@ -31,7 +31,8 @@ def handle_get_file_meta(fileKey: str):
 def handle_get_subject(subject: str, grade: int):
     # add limit>20 error
     # add exclusivestartkey
-    response = Db.get_files_by_subject(subject, grade)
+    try: response = Db.get_files_by_subject(subject, grade)
+    except Exception as e: print(e)
     print(response)
     return JSONResponse(response)
     
