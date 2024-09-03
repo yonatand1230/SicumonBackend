@@ -27,6 +27,15 @@ def handle_get_file_meta(fileKey: str):
         print(f'Exception Text Below. Returning Generic Error! \n{e}')
         return Response('Unknown Error', 500)
 
+@app.get('/get_subject')
+def handle_get_subject(subject, grade, Limit: int = 10):
+    # add limit>20 error
+    # add exclusivestartkey
+    response = Db.get_files_by_subject(subject, grade, Limit=Limit)
+    print(response)
+    return JSONResponse(response)
+    
+
 @app.get("/get_file_list")
 def handle_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:str = None):
     if Limit>20: 
