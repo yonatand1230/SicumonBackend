@@ -73,12 +73,10 @@ class Db:
         return Sicum.from_dict(item)
     
     def get_files_by_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:str=None) -> dict:
-        print('connecting to dynamodb')
-        dynamodb = new_session().resource('dynamodb')
+        dynamodb = new_session().resource('dynamodb') # Connect to DynamoDB
         table = dynamodb.Table('Files')
         response = None
 
-        print('getting response from aws')
         try:
             if ExclusiveStartKey:
                 response = table.scan(
@@ -95,9 +93,7 @@ class Db:
         except Exception as e:
             print(e)
         
-        print('preparing response for client')
         items_json = response.get('Items')
-        print(items_json)
         items = []
         for i in items_json: items.append(Sicum.from_dict(i))
         
