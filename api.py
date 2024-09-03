@@ -20,6 +20,7 @@ def handle_get_file_meta(fileKey: str):
     print('not using b64!')
     decodedKey = fileKey
     item = Db.get_file_meta(decodedKey)
+    print('got item:', item)
     if item: return JSONResponse(Utils.replace_decimals(item.__dict__))
     return JSONResponse({'Error':'Specified fileKey not found.'})
 

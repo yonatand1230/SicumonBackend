@@ -74,6 +74,7 @@ class Db:
         #load_dotenv() # Init .env
 
         # Connect to AWS
+        print('connecting to aws..')
         session = boto3.Session(
             aws_access_key_id=os.environ['AWS_KEYID'],
             aws_secret_access_key=os.environ['AWS_SECRET'],
@@ -84,9 +85,12 @@ class Db:
         #s3 = resource.meta.client
 
         # Connect to DynamoDB
+        print('connecting to dynamodb..')
         dynamodb = session.resource('dynamodb', region_name='il-central-1')
         table = dynamodb.Table('Files')
         response = table.get_item(Key={'fileKey':file_key})
+
+        print('getting item..')
         item = response.get('Item')
         if item: return Sicum.from_dict(item)
         return None
