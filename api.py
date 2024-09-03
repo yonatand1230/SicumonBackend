@@ -41,12 +41,14 @@ def handle_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:
     for item in response.get('Items'):
         my_items.append(Utils.replace_decimals(item))
     
+    print('my_items:', my_items)
+
     my_response = {
         'Items': my_items
     }
     if response.get('LastEvaluatedKey'):
         my_response['LastEvaluatedKey'] = response.get('LastEvaluatedKey').get('fileKey')
-
+    print('myresponse:', my_response)
     return JSONResponse(my_response)
 
     """items_json = []
