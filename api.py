@@ -28,10 +28,10 @@ def handle_get_file_meta(fileKey: str):
         return Response('Unknown Error', 500)
 
 @app.get('/get_subject')
-def handle_get_subject(subject, grade, Limit: int = 10):
+def handle_get_subject(subject: str, grade: int):
     # add limit>20 error
     # add exclusivestartkey
-    response = Db.get_files_by_subject(subject, grade, Limit=Limit)
+    response = Db.get_files_by_subject(subject, grade)
     print(response)
     return JSONResponse(response)
     
