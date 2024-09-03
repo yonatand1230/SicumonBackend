@@ -1,5 +1,6 @@
 .DS_Store
 dependencies/*
+package/*
 *.zip
 
 # Byte-compiled / optimized / DLL files

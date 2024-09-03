@@ -7,8 +7,8 @@ from api import app as api_app
 from pathlib import Path
 
 app = FastAPI()
-handler = Mangum(app)
 app.mount("/api", api_app, name='api')
+handler = Mangum(app)
 
 if __name__ == "__main__":
     import uvicorn

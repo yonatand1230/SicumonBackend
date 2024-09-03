@@ -1,6 +1,6 @@
 import boto3, io, os
 from .sicum import Sicum
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 from boto3.dynamodb.conditions import Attr
 from datetime import datetime
 
@@ -12,11 +12,11 @@ def file_size(file) -> int:
 
 class Db:
     def new_file(file: io.BytesIO, file_meta: Sicum) -> Sicum:
-        load_dotenv() # Init .env
+        #load_dotenv() # Init .env
         # Connect to AWS
         session = boto3.Session(
-            aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-            aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+            aws_access_key_id=os.environ['AWS_KEYID'],
+            aws_secret_access_key=os.environ['AWS_SECRET'],
             region_name='il-central-1'
         )
         # Connect to S3
@@ -53,12 +53,12 @@ class Db:
         return file_meta
 
     def generate_file_url(file_key: str) -> str:
-        load_dotenv() # Init .env
+        #load_dotenv() # Init .env
 
         # Connect to AWS
         session = boto3.Session(
-            aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-            aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+            aws_access_key_id=os.environ['AWS_KEYID'],
+            aws_secret_access_key=os.environ['AWS_SECRET'],
             region_name='il-central-1'
         )
         # Connect to S3
@@ -68,34 +68,36 @@ class Db:
         # Connect to DynamoDB
         dynamodb = session.resource('dynamodb', region_name='il-central-1')
         table = dynamodb.Table('Files')
-        return s3.generate_presigned_url('get_object', Params={'Bucket':os.getenv('S3_ACCESS_POINT'),'Key':file_key})
+        return s3.generate_presigned_url('get_object', Params={'Bucket':os.environ['S3_ACCESSPOINT'],'Key':file_key})
     
     def get_file_meta(file_key: str) -> Sicum:
-        load_dotenv() # Init .env
+        #load_dotenv() # Init .env
 
         # Connect to AWS
         session = boto3.Session(
-            aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-            aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+            aws_access_key_id=os.environ['AWS_KEYID'],
+            aws_secret_access_key=os.environ['AWS_SECRET'],
             region_name='il-central-1'
         )
         # Connect to S3
-        resource = session.resource('s3', region_name='il-central-1')
-        s3 = resource.meta.client
+        #resource = session.resource('s3', region_name='il-central-1')
+        #s3 = resource.meta.client
 
         # Connect to DynamoDB
         dynamodb = session.resource('dynamodb', region_name='il-central-1')
         table = dynamodb.Table('Files')
-        response = table.get_item(Key={'fileKey':'files/yom_hamea.pdf'})
-        return Sicum.from_dict(response.get('Item'))
+        response = table.get_item(Key={'fileKey':file_key})
+        item = response.get('Item')
+        if item: return Sicum.from_dict(item)
+        return None
     
     def get_files_by_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:str=None) -> dict:
-        load_dotenv() # Init .env
+        #load_dotenv() # Init .env
 
         # Connect to AWS
         session = boto3.Session(
-            aws_access_key_id=os.getenv('AWS_ACCESS_KEY_ID'),
-            aws_secret_access_key=os.getenv('AWS_SECRET_ACCESS_KEY'),
+            aws_access_key_id=os.environ['AWS_KEYID'],
+            aws_secret_access_key=os.environ['AWS_SECRET'],
             region_name='il-central-1'
         )
         # Connect to S3
