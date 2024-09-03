@@ -17,12 +17,14 @@ app = FastAPI()
 
 @app.get("/get_file_meta")
 def handle_get_file_meta(fileKey: str):
-    print('not using b64!')
-    decodedKey = fileKey
-    item = Db.get_file_meta(decodedKey)
-    print('got item:', item)
-    if item: return JSONResponse(Utils.replace_decimals(item.__dict__))
-    return JSONResponse({'Error':'Specified fileKey not found.'})
+    try:
+        item = Db.get_file_meta(fileKey)
+        if not item: return JSONResponse({'Error':'Specified fileKey not found.'}, 404)
+        return JSONResponse(Utils.replace_decimals(item.__dict__))
+    
+    except Exception as e:
+        print(f'Exception Text Below. Returning Generic Error! \n{e}')
+        return Response('Unknown Error', 500)
 
 @app.get("/get_file_list")
 def handle_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:str=None):
