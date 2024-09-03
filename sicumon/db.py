@@ -121,12 +121,14 @@ class Db:
         response = {}
 
         if ExclusiveStartKey:
+            print('detected exclusivestartkey!')
             response = table.scan(
                 FilterExpression = Attr('subject').eq(subject) & Attr('grade').eq(grade),
                 Limit = Limit,
                 ExclusiveStartKey = {'fileKey': ExclusiveStartKey}
             )
         else: # api didnt get ExclusiveStartKey 
+            print('not detected exclusivestartkey!')
             response = table.scan(
                 FilterExpression = Attr('subject').eq(subject) & Attr('grade').eq(grade),
                 Limit = Limit
