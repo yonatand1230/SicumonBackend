@@ -34,6 +34,9 @@ def handle_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:
     print(1)
     response = Db.get_files_by_subject(subject, grade, Limit=Limit, ExclusiveStartKey=ExclusiveStartKey, get_json=True)
     print(2)
+    print(response)
+    if response.get('ExclusiveStartKey'):
+        response['ExclusiveStartKey'] = response.get('ExclusiveStartKey').get('fileKey')
     return JSONResponse(response)
 
     """items_json = []
