@@ -86,9 +86,12 @@ class Db:
 
         # Connect to DynamoDB
         print('connecting to dynamodb..')
-        dynamodb = session.resource('dynamodb', region_name='il-central-1')
-        table = dynamodb.Table('Files')
-        response = table.get_item(Key={'fileKey':file_key})
+        try:
+            dynamodb = session.resource('dynamodb', region_name='il-central-1')
+            table = dynamodb.Table('Files')
+            response = table.get_item(Key={'fileKey':file_key})
+        except Exception as e:
+            print(e)
 
         print('getting item..')
         item = response.get('Item')
