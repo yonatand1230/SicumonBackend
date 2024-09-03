@@ -3,6 +3,7 @@ from .sicum import Sicum
 #from dotenv import load_dotenv
 from boto3.dynamodb.conditions import Attr
 from datetime import datetime
+from .utils import Utils
 
 AWS_KEYID = os.environ['AWS_KEYID']
 AWS_SECRET = os.environ['AWS_SECRET']
@@ -14,6 +15,12 @@ def file_size(file) -> int:
     size = file.seek(0,2)
     file.seek(0)
     return size
+
+def replace_decimals_list(list_to_replace):
+    newlist = []
+    for item in list_to_replace:
+        newlist.append(Utils.replace_decimals())
+    return newlist
 
 def new_session():
     return boto3.Session(
@@ -72,10 +79,11 @@ class Db:
         if not item: return None
         return Sicum.from_dict(item)
     
-    def get_files_by_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:str=None, get_json=False) -> dict:
+    """def get_files_by_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:str=None, get_json=False) -> dict:
         dynamodb = new_session().resource('dynamodb') # Connect to DynamoDB
         table = dynamodb.Table('Files')
         response = None
+
         print('a')
         try:
             if ExclusiveStartKey:
@@ -105,4 +113,37 @@ class Db:
         }
         if response.get('LastEvaluatedKey'): my_response['LastEvaluatedKey']=response.get('LastEvaluatedKey').get('fileKey')
         
-        return my_response
+        return my_response"""
+    
+    def get_files_by_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey: str = None):
+        dynamodb = new_session().resource('dynamodb') # Connect to DynamoDB
+        table = dynamodb.Table('Files')
+        response = {}
+
+        if ExclusiveStartKey:
+            response = table.scan(
+                FilterExpression = Attr('subject').eq(subject) & Attr('grade').eq(grade),
+                Limit = Limit,
+                ExclusiveStartKey = {'fileKey': ExclusiveStartKey}
+            )
+        else: # api didnt get ExclusiveStartKey 
+            response = table.scan(
+                FilterExpression = Attr('subject').eq(subject) & Attr('grade').eq(grade),
+                Limit = Limit
+            )
+
+        print(response)
+        items = response.get('Items')
+        items_fixed = replace_decimals_list(items)
+
+        response_fixed = {
+            'Items': items_fixed
+        }
+
+        # Response: Items, LastEvaluatedKey
+        if response.get('LastEvaluatedKey'):
+            print(response.get('LastEvaluatedKey'))
+            lastKey = response.get('LastEvaluatedKey').get('fileKey')
+            response_fixed['LastEvaluatedKey'] = lastKey
+        
+        print(response_fixed)
