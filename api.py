@@ -35,10 +35,12 @@ def handle_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:
 
     items = response.get('Items')
     for f in items: items_json.append(Utils.replace_decimals(f.__dict__))
+    print(items_json)
     my_response = {
         'Items': items_json
     }
     if response.get('LastEvaluatedKey'): my_response['LastEvaluatedKey']=response.get('LastEvaluatedKey')
+    print(my_response)
     return JSONResponse(my_response, headers={'Access-Control-Allow-Origin':'*'})
 
 """@app.post("/upload_file")
