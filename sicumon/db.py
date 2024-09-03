@@ -19,7 +19,7 @@ def file_size(file) -> int:
 def replace_decimals_list(list_to_replace):
     newlist = []
     for item in list_to_replace:
-        newlist.append(Utils.replace_decimals())
+        newlist.append(Utils.replace_decimals(item))
     return newlist
 
 def new_session():
