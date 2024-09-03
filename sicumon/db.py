@@ -76,7 +76,7 @@ class Db:
         dynamodb = new_session().resource('dynamodb') # Connect to DynamoDB
         table = dynamodb.Table('Files')
         response = None
-
+        print('a')
         try:
             if ExclusiveStartKey:
                 response = table.scan(
@@ -94,7 +94,7 @@ class Db:
             print(e)
         
         if get_json: return response
-        
+
         items_json = response.get('Items')
         items = []
         for i in items_json: items.append(Sicum.from_dict(i))
