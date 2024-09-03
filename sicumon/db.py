@@ -117,17 +117,20 @@ class Db:
         response = None
 
         print('getting response from aws')
-        if ExclusiveStartKey:
-            response = table.scan(
-                FilterExpression=Attr('subject').eq(subject)&Attr('grade').eq(grade),
-                Limit=Limit,
-                ExclusiveStartKey={'fileKey':ExclusiveStartKey}
-            )
-        else:
-            response = table.scan(
-                FilterExpression=Attr('subject').eq(subject)&Attr('grade').eq(grade),
-                Limit=Limit
-            )
+        try:
+            if ExclusiveStartKey:
+                response = table.scan(
+                    FilterExpression=Attr('subject').eq(subject)&Attr('grade').eq(grade),
+                    Limit=Limit,
+                    ExclusiveStartKey={'fileKey':ExclusiveStartKey}
+                )
+            else:
+                response = table.scan(
+                    FilterExpression=Attr('subject').eq(subject)&Attr('grade').eq(grade),
+                    Limit=Limit
+                )
+        except Exception as e:
+            print(e)
         
         print('preparing response for client')
         items_json = response.get('Items')
