@@ -6,7 +6,6 @@ from mangum import Mangum
 from api import app as api_app
 from pathlib import Path
 
-logging.basicConfig(level=logging.DEBUG)
 
 app = FastAPI()
 app.mount("/api", api_app, name='api')

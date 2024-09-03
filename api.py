@@ -6,6 +6,7 @@ from sicumon.sicum import Sicum
 from sicumon.db import Db
 from sicumon.utils import Utils
 from base64 import b64decode
+import logging
 
 class FileItem(BaseModel):
     fileName: str
@@ -28,6 +29,7 @@ def handle_get_file_meta(fileKey: str):
 
 @app.get("/get_file_list")
 def handle_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:str=None):
+    logging.basicConfig(level=logging.DEBUG)
     if Limit>20: 
         return Response(400, 'Limit too high!')
     
