@@ -38,12 +38,7 @@ def handle_get_subject(subject: str, grade: int, Limit: int = 10):
     
 
 @app.get("/get_file_list")
-def handle_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:str = None):
-    if Limit>20: 
-        return Response(400, 'Limit too high!')
-    
-    print(1)
-    #response = Db.get_files_by_subject(subject, grade, Limit=Limit, ExclusiveStartKey=ExclusiveStartKey, get_json=True)
+def handle_subject(subject: str, grade: int, Limit: int = 10, ExclusiveStartKey:str = None):    
     response = Db.get_files_by_subject(subject, grade, Limit=Limit, ExclusiveStartKey=ExclusiveStartKey)
     return JSONResponse(response)
 

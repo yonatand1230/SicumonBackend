@@ -121,7 +121,6 @@ class Db:
         response = {}
 
         if ExclusiveStartKey:
-            print('detected exclusivestartkey!')
             try:
                 response = table.scan(
                     FilterExpression = Attr('subject').eq(subject) & Attr('grade').eq(grade),
@@ -132,7 +131,6 @@ class Db:
                 print(f'{type(e)}: '+str(e))
 
         else: # api didnt get ExclusiveStartKey 
-            print('not detected exclusivestartkey!')
             try:
                 response = table.scan(
                     FilterExpression = Attr('subject').eq(subject) & Attr('grade').eq(grade),
@@ -141,7 +139,6 @@ class Db:
             except Exception as e:
                 print(f'{type(e)}: '+str(e))
 
-        print(response)
         items = response.get('Items')
         items_fixed = replace_decimals_list(items)
 
@@ -155,5 +152,4 @@ class Db:
             lastKey = response.get('LastEvaluatedKey').get('fileKey')
             response_fixed['LastEvaluatedKey'] = lastKey
         
-        print(response_fixed)
         return response_fixed
