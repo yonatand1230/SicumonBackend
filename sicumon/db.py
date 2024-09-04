@@ -5,7 +5,7 @@ from boto3.dynamodb.conditions import Attr
 from datetime import datetime
 from .utils import Utils
 
-AWS_KEYID = os.environ['AWS_KEYID']
+AWS_KEYID = os.environ['AWS_KEYID'] 
 AWS_SECRET = os.environ['AWS_SECRET']
 AWS_REGION = 'il-central-1'
 S3_ACCESSPOINT = os.environ['S3_ACCESSPOINT']
@@ -122,17 +122,24 @@ class Db:
 
         if ExclusiveStartKey:
             print('detected exclusivestartkey!')
-            response = table.scan(
-                FilterExpression = Attr('subject').eq(subject) & Attr('grade').eq(grade),
-                Limit = Limit,
-                ExclusiveStartKey = {'fileKey': ExclusiveStartKey}
-            )
+            try:
+                response = table.scan(
+                    FilterExpression = Attr('subject').eq(subject) & Attr('grade').eq(grade),
+                    Limit = Limit,
+                    ExclusiveStartKey = {'fileKey': ExclusiveStartKey}
+                )
+            except Exception as e:
+                print(f'{type(e)}: '+str(e))
+
         else: # api didnt get ExclusiveStartKey 
             print('not detected exclusivestartkey!')
-            response = table.scan(
-                FilterExpression = Attr('subject').eq(subject) & Attr('grade').eq(grade),
-                Limit = Limit
-            )
+            try:
+                response = table.scan(
+                    FilterExpression = Attr('subject').eq(subject) & Attr('grade').eq(grade),
+                    Limit = Limit
+                )
+            except Exception as e:
+                print(f'{type(e)}: '+str(e))
 
         print(response)
         items = response.get('Items')
